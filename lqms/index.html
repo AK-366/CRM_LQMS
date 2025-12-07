@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ERP Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+
+font-family: 'Inter', sans-serif;
+
+}
+
+
+::-webkit-scrollbar {
+
+width: 8px;
+
+height: 8px;
+
+}
+
+::-webkit-scrollbar-track {
+
+background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+
+background: #cbd5e1;
+border-radius: 4px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+background: #94a3b8;
+}
+
+
+.sidebar-transition {
+
+transition: width 0.3s ease;
+
+}
+
+.nav-text {
+
+transition: opacity 0.3s ease, width 0.3s ease;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+}
+
+
+.drawer {
+
+transition: transform 0.3s ease-in-out;
+
+}
+
+.drawer.open {
+
+transform: translateX(0);
+
+}
+
+.drawer.closed {
+
+transform: translateX(100%);
+
+}
+
+
+.backdrop {
+
+transition: opacity 0.3s ease;
+
+}
+
+</style>
+
+</head>
+
+<body class="bg-slate-50 text-slate-800 overflow-hidden h-screen flex">
+
+
+
+
+<aside id="sidebar" class="bg-[#0e1b2e] text-white h-full flex flex-col border-r border-gray-800 shadow-xl z-20 sidebar-transition w-64">
+
+
+
+<div class="flex items-center justify-between p-4 h-16 border-b border-gray-800/50 bg-[#0A1525]">
+
+<span id="logo-text" class="font-bold text-lg tracking-wider text-blue-100 nav-text">ERP </span>
+
+<button onclick="toggleSidebar()" class="p-1.5 rounded-md hover:bg-white/10 text-gray-300 transition-colors mx-auto">
+
+<i data-lucide="menu" class="w-5 h-5"></i>
+
+</button>
+
+</div>
+
+
+
+
+<div class="flex-1 py-6 flex flex-col gap-2 overflow-y-auto">
+
+<div class="nav-item flex items-center px-4 py-3 cursor-pointer hover:bg-white/5 transition-colors relative group bg-blue-900/30 border-l-2 border-blue-500">
+
+<i data-lucide="layout-dashboard" class="w-5 h-5 text-blue-400 shrink-0"></i>
+
+<span class="ml-4 text-sm font-medium nav-text">Dashboard</span>
+
+</div>
+
+<div class="nav-item flex items-center px-4 py-3 cursor-pointer hover:bg-white/5 transition-colors relative group border-l-2 border-transparent text-gray-400 hover:text-white">
+
+<i data-lucide="calendar" class="w-5 h-5 shrink-0"></i>
+
+<span class="ml-4 text-sm font-medium nav-text">Calendar</span>
+
+</div>
+
+
+<div class="nav-item flex items-center px-4 py-3 cursor-pointer hover:bg-white/5 transition-colors relative group border-l-2 border-transparent text-gray-400 hover:text-white">
+
+<i data-lucide="check-square" class="w-5 h-5 shrink-0"></i>
+
+<span class="ml-4 text-sm font-medium nav-text">Checklist</span>
+
+</div>
+
+
+<div class="nav-item flex items-center px-4 py-3 cursor-pointer hover:bg-white/5 transition-colors relative group border-l-2 border-transparent text-gray-400 hover:text-white">
+
+<i data-lucide="folder" class="w-5 h-5 shrink-0"></i>
+
+<span class="ml-4 text-sm font-medium nav-text">Folder</span>
+
+</div>
+
+
+<div class="nav-item flex items-center px-4 py-3 cursor-pointer hover:bg-white/5 transition-colors relative group border-l-2 border-transparent text-gray-400 hover:text-white">
+
+<i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
+
+<span class="ml-4 text-sm font-medium nav-text">Documents</span>
+
+</div>
+
+
+<div class="nav-item flex items-center px-4 py-3 cursor-pointer hover:bg-white/5 transition-colors relative group border-l-2 border-transparent text-gray-400 hover:text-white">
+
+<i data-lucide="settings" class="w-5 h-5 shrink-0"></i>
+
+<span class="ml-4 text-sm font-medium nav-text">Settings</span>
+
+</div>
+
+</div>
+
+
+
+
+<div class="p-4 border-t border-gray-800/50 bg-[#0A1525]">
+
+<div class="flex items-center px-2 py-2 cursor-pointer hover:bg-red-900/20 text-gray-400 hover:text-red-400 transition-colors rounded-md group">
+
+<i data-lucide="log-out" class="w-5 h-5 shrink-0"></i>
+
+<span class="ml-4 text-sm font-medium nav-text">Logout</span>
+
+</div>
+
+</div>
+
+</aside>
+
+
+
+
+<div class="flex-1 flex flex-col h-screen overflow-hidden w-full relative">
+
+
+
+<header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 shadow-sm z-10 w-full">
+
+
+
+<div class="flex items-center text-gray-500 text-sm hidden sm:flex">
+
+<span class="flex items-center gap-2">
+
+<i data-lucide="clock" class="w-4 h-4 text-gray-400"></i>
+
+Last logged: <span class="font-medium text-gray-700">04 December 2025 17:30</span>
+
+</span>
+
+</div>
+
+
+
+
+<div class="flex items-center gap-4 ml-auto">
+
+<div class="flex items-center gap-2 border-r border-gray-200 pr-4">
+
+<button class="text-gray-500 hover:text-blue-600 relative p-2 rounded-md hover:bg-gray-100">
+
+<i data-lucide="bell" class="w-5 h-5"></i>
+
+<span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+
+</button>
+
+<button class="text-gray-500 hover:text-amber-500 p-2 rounded-md hover:bg-gray-100">
+
+<i data-lucide="alert-triangle" class="w-5 h-5"></i>
+
+</button>
+
+<button class="text-gray-500 hover:text-blue-600 relative p-2 rounded-md hover:bg-gray-100">
+
+<i data-lucide="mail" class="w-5 h-5"></i>
+
+<span class="absolute top-1.5 right-1.5 flex h-3 w-3 items-center justify-center bg-red-500 rounded-full text-[8px] text-white border border-white">3</span>
+
+</button>
+
+</div>
+
+
+
+<div class="relative">
+   
+    <div id="profileToggle"
+        class="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-1.5 rounded-full pr-3 transition-colors">
+
+        <div class="h-9 w-9 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-medium border border-gray-200">
+            LQ
+        </div>
+
+        <div class="flex flex-col items-start hidden md:flex">
+            <span class="text-sm font-semibold text-gray-700">LQMS User</span>
+            <span class="text-[10px] text-gray-500 uppercase tracking-wide">Admin</span>
+        </div>
+
+        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-400"></i>
+    </div>
+
+   
+    <ul id="profileMenu"
+        class="absolute right-0 mt-2 w-44 bg-white shadow-lg rounded-md border border-gray-200 py-2 hidden z-50">
+
+        <li>
+            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
+                My Account
+            </a>
+        </li>
+
+        <li>
+            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
+                Profile
+            </a>
+        </li>
+
+        <li>
+            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
+                Settings
+            </a>
+        </li>
+
+        <hr class="my-1">
+
+        <li>
+            <a class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" href="#">
+                Log out
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+</div>
+
+</header>
+
+<form action="#" method="POST">
+
+
+<main class="flex-1 overflow-y-auto p-6 bg-white w-full">
+
+<div class="max-w-[1800px] mx-auto min-h-full">
+
+
+
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+
+<h1 class="text-2xl font-bold text-gray-700 tracking-tight uppercase">SCHEDULED ITEMS</h1>
+
+<button onclick="toggleDrawer()" class="ml-auto inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focusvisible:
+ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-white hover:bg-gray-50 hover:text-accent-foreground h-9 px-4 py-2 shadow-sm">
+
+<i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+
+Filters (1)
+
+</button>
+
+</div>
+
+
+
+<div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm mb-6">
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-4">
+
+
+
+<div class="space-y-3">
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Schedule Date</label>
+<div class="col-span-12 sm:col-span-9">
+        <input type="text" id="dateRange" placeholder="From - To"
+            class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm">
+
+        
+        <input type="date" id="fromDate" class="hidden">
+        <input type="date" id="toDate" class="hidden">
+    </div>
+
+
+</div>
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Project</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50">
+ <option selected disabled>Project</option>
+<option>LQMS-01 - Jebel Ali</option>
+
+<option>LQMS-02 - Dubai</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Scope</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm">
+     <option selected disabled>Scope</option>
+    <option>Lifting Equipments</option>
+<option> Structural Inspection</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Status</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm">
+     <option selected disabled>Status</option>
+    <option>Active</option>
+<option >Completed</option>
+<option >Pending</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Assigned Users</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm">
+     <option selected disabled>Assign User</option>
+    <option>Ryan Raamos</option>
+<option >Sarah Smith</option>
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<div class="space-y-3">
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Month</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm">
+     <option selected disabled>Month</option>
+    <option> Jan</option>
+    <option >Feb</option>
+    <option >March</option>
+    <option >April</option>
+    <option >May</option>
+    <option >June</option>
+    <option >July</option>
+    <option >Aug</option>
+    <option >Sept</option>
+    <option >Oct</option>
+    <option >Nov</option>
+    <option >Dec</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Category</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm">
+     <option selected disabled>Category</option>
+    <option>mobile crane</option>
+    <option>Fixed crane</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Action Form</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm">
+     <option selected disabled>Action Form</option>
+    <option>Inspection report</option>
+    <option >Saftey audit</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">Area</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm">
+     <option selected disabled>Area</option>
+    <option>Area - 1</option>
+<option > Area - 2</option></select>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-12 gap-4 items-center">
+
+<label class="col-span-12 sm:col-span-3 text-sm font-medium text-gray-500">SAP Order No</label>
+
+<div class="col-span-12 sm:col-span-9">
+
+<input type="text" placeholder="SAP Order Number..." class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm">
+
+</div>
+
+
+
+</div>
+
+</div>
+
+</div>
+<div class="flex justify-end mt-6">
+<button type="submit"
+class="ml-4 px-6 py-2 bg-blue-600 text-white text-sm rounded-md shadow hover:bg-blue-700 transition-all">
+submit
+</button>
+</div>
+</form>
+
+
+<div class="flex items-center gap-3 mt-8 pt-4 border-t border-gray-300">
+
+<button class="rounded-full h-9 w-9 border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 hover:text-blue-600 shadow-sm flex items-center justify-center transition-all"><i data-lucide="search" class="w-4 h-4"></i></button>
+
+<button class="rounded-full h-9 w-9 border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 hover:text-blue-600 shadow-sm flex items-center justify-center transition-all"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
+
+<button class="rounded-full h-9 w-9 border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 hover:text-blue-600 shadow-sm flex items-center justify-center transition-all"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+
+<button class="rounded-full h-9 w-9 border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 hover:text-blue-600 shadow-sm flex items-center justify-center transition-all"><i data-lucide="file-down" class="w-4 h-4"></i></button>
+
+<button class="rounded-full h-9 w-9 border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 hover:text-blue-600 shadow-sm flex items-center justify-center transition-all"><i data-lucide="printer" class="w-4 h-4"></i></button>
+
+</div>
+
+</div>
+
+
+
+
+<div class="rounded-md border border-gray-200 overflow-hidden bg-white shadow-sm mt-6">
+
+<div class="overflow-x-auto">
+
+<table class="w-full text-sm text-left">
+
+<thead class="bg-[#0e1b2e] text-white">
+
+<tr class="h-10">
+
+<th class="p-2 w-[40px] font-semibold"><input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"></th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Schedule No</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Title</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Scope</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Category</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">SAP No</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Functional Location</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Project</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Equipment</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Area</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Planned Date</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs text-center">Total NDT</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs text-center">NDT Comp.</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Created By</th>
+
+<th class="p-2 font-semibold whitespace-nowrap text-xs">Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr class="bg-white h-16 border-b border-gray-100 hover:bg-gray-50">
+
+<td class="p-2"><input type="checkbox" class="rounded border-gray-300"></td>
+
+<td class="p-2 font-medium text-xs text-gray-700">STL-000244</td>
+
+<td class="p-2 text-xs text-gray-600">
+
+<div class="font-medium">Mobile Crane</div>
+
+<div class="text-[10px] text-gray-400">04-12-2025-1</div>
+
+</td>
+
+<td class="p-2 text-xs text-gray-600">Lifting<br>Equipments</td>
+
+<td class="p-2 text-xs text-gray-600 font-semibold">MOBILE CRANE</td>
+
+<td class="p-2 text-xs text-gray-600">-</td>
+
+<td class="p-2 text-xs text-gray-600">-</td>
+
+<td class="p-2 text-xs text-gray-600 max-w-[120px] truncate">LQMS-01 - Jebel Ali</td>
+
+<td class="p-2 text-xs text-gray-600 max-w-[120px] truncate">MC555-Mobile Crane</td>
+
+<td class="p-2 text-xs text-gray-600">LQMS JA Area1</td>
+
+<td class="p-2 text-xs text-gray-600">04/12/2025</td>
+
+<td class="p-2 text-xs text-gray-600 text-center">0</td>
+
+<td class="p-2 text-xs text-gray-600 text-center">0</td>
+
+<td class="p-2 text-xs text-gray-600">LQMS (LQMS001)</td>
+
+<td class="p-2 text-xs">
+
+<div class="text-green-700 font-medium">Inspection Approved</div>
+
+<div class="text-orange-400 font-medium">Ryan Ramos</div>
+
+<div class="text-[10px] text-orange-300">(04/12/2025)</div>
+
+</td>
+
+</tr>
+
+<tr class="bg-gray-50/50 h-16 border-b border-gray-100 hover:bg-gray-50">
+
+<td class="p-2"><input type="checkbox" class="rounded border-gray-300"></td>
+
+<td class="p-2 font-medium text-xs text-gray-700">STL-000243</td>
+
+<td class="p-2 text-xs text-gray-600">
+
+<div class="font-medium">Mobile Crane</div>
+
+<div class="text-[10px] text-gray-400">04-12-2025</div>
+
+</td>
+
+<td class="p-2 text-xs text-gray-600">Lifting<br>Equipments</td>
+
+<td class="p-2 text-xs text-gray-600 font-semibold">MOBILE CRANE</td>
+
+<td class="p-2 text-xs text-gray-600">-</td>
+
+<td class="p-2 text-xs text-gray-600">-</td>
+
+<td class="p-2 text-xs text-gray-600 max-w-[120px] truncate">LQMS-01 - Jebel Ali</td>
+
+<td class="p-2 text-xs text-gray-600 max-w-[120px] truncate">MC555-Mobile Crane</td>
+
+<td class="p-2 text-xs text-gray-600">LQMS JA Area1</td>
+
+<td class="p-2 text-xs text-gray-600">04/12/2025</td>
+
+<td class="p-2 text-xs text-gray-600 text-center">0</td>
+
+<td class="p-2 text-xs text-gray-600 text-center">0</td>
+
+<td class="p-2 text-xs text-gray-600">LQMS (LQMS001)</td>
+
+<td class="p-2 text-xs">
+
+<div class="text-green-700 font-medium">Inspection Approved</div>
+
+<div class="text-orange-400 font-medium">Ryan Ramos</div>
+
+<div class="text-[10px] text-orange-300">(04/12/2025)</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="bg-gray-50 border-t border-gray-200 px-4 py-2 flex justify-between items-center text-xs text-gray-500 font-medium">
+
+<div class="text-red-500 font-semibold">Total Reports: 277</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+
+
+
+<div id="drawer-backdrop" onclick="toggleDrawer()" class="fixed inset-0 bg-black/50 backdrop opacity-0 pointer-events-none z-30"></div>
+
+
+
+
+<div id="drawer" class="fixed inset-y-0 right-0 h-full w-[400px] bg-white shadow-2xl z-40 drawer closed flex flex-col">
+
+<div class="p-4 border-b border-gray-100 flex justify-between items-center">
+
+<h2 class="text-lg font-semibold flex items-center gap-2">
+
+<i data-lucide="sliders-horizontal" class="w-4 h-4"></i> Filters (1)
+
+</h2>
+
+<button onclick="toggleDrawer()" class="text-gray-400 hover:text-gray-600">
+
+<i data-lucide="x" class="w-5 h-5"></i>
+
+</button>
+
+</div>
+
+<div class="p-6 bg-gray-50/50 flex-1 overflow-y-auto">
+
+<div class="grid gap-6 p-4 rounded-lg border border-gray-100 bg-white">
+
+<div class="grid grid-cols-4 items-center gap-4">
+
+<label class="text-right text-xs font-semibold text-gray-600">Year</label>
+
+<div class="col-span-3">
+
+<select class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"><option>2025</option></select>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-4 items-center gap-4">
+
+<label class="text-right text-xs font-semibold text-gray-600">Equipments</label>
+
+<div class="col-span-3">
+
+<input type="text" placeholder="Equipment Number..." class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm">
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-4 items-center gap-4">
+
+<label class="text-right text-xs font-semibold text-gray-600">Schedule No</label>
+
+<div class="col-span-3">
+
+<input type="text" placeholder="Schedule Number..." class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="p-4 border-t border-gray-100 mt-auto flex justify-end gap-2">
+
+<button onclick="toggleDrawer()" class="border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 rounded-md text-sm font-medium">Cancel</button>
+
+<button onclick="toggleDrawer()" class="bg-blue-600 text-white hover:bg-blue-700 h-9 px-4 py-2 rounded-md text-sm font-medium">Apply Filters</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+
+
+lucide.createIcons();
+
+
+
+const sidebar = document.getElementById('sidebar');
+
+const logoText = document.getElementById('logo-text');
+
+const navTexts = document.querySelectorAll('.nav-text');
+
+let isCollapsed = false;
+
+
+function toggleSidebar() {
+
+isCollapsed = !isCollapsed;
+
+if (isCollapsed) {
+
+sidebar.classList.remove('w-64');
+
+sidebar.classList.add('w-16');
+
+logoText.classList.add('hidden');
+
+navTexts.forEach(el => el.classList.add('hidden'));
+
+} else {
+
+sidebar.classList.remove('w-16');
+
+sidebar.classList.add('w-64');
+
+logoText.classList.remove('hidden');
+
+setTimeout(() => {
+
+navTexts.forEach(el => el.classList.remove('hidden'));
+
+}, 50); // Small delay for cleaner transition
+
+}
+
+}
+
+
+
+
+const drawer = document.getElementById('drawer');
+
+const backdrop = document.getElementById('drawer-backdrop');
+
+let isDrawerOpen = false;
+
+
+function toggleDrawer() {
+
+isDrawerOpen = !isDrawerOpen;
+
+if (isDrawerOpen) {
+
+drawer.classList.remove('closed');
+
+drawer.classList.add('open');
+
+backdrop.classList.remove('opacity-0', 'pointer-events-none');
+
+} else {
+
+drawer.classList.remove('open');
+
+drawer.classList.add('closed');
+
+backdrop.classList.add('opacity-0', 'pointer-events-none');
+
+}
+
+}
+
+const profileToggle = document.getElementById("profileToggle");
+const profileMenu = document.getElementById("profileMenu");
+
+profileToggle.addEventListener("click", () => {
+    profileMenu.classList.toggle("hidden");
+});
+
+
+window.addEventListener("click", (event) => {
+    if (!profileToggle.contains(event.target) && !profileMenu.contains(event.target)) {
+        profileMenu.classList.add("hidden");
+    }
+});
+
+const dateRangeInput = document.getElementById("dateRange");
+    const fromDate = document.getElementById("fromDate");
+    const toDate = document.getElementById("toDate");
+
+    
+    dateRangeInput.addEventListener("click", () => {
+        fromDate.showPicker(); 
+    });
+
+    
+    fromDate.addEventListener("change", () => {
+        toDate.showPicker();
+    });
+
+    
+    toDate.addEventListener("change", () => {
+        dateRangeInput.value =
+            `${fromDate.value}  -  ${toDate.value}`;
+    });
+</script>
+
+
+
+</body>
+
+</html>
